@@ -8,11 +8,21 @@ using SistemaOrdenesReparacion.Model;
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionUrl = builder.Configuration.GetConnectionString("DefaultConnection");
-if (!string.IsNullOrEmpty(connectionUrl) && connectionUrl.StartsWith("postgres://"))
+if (!string.IsNullOrEmpty(connectionUrl) && (connectionUrl.StartsWith("postgres://") || connectionUrl.StartsWith("postgresql://")))
 {
     var uri = new Uri(connectionUrl);
     var userInfo = uri.UserInfo.Split(':');
-    connectionUrl = $"Host={uri.Host};Database={uri.LocalPath.Substring(1)};Username={userInfo[0]};Password={userInfo[1]};Port={(uri.Port > 0 ? uri.Port : 5432)};SSL Mode=Require;Trust Server Certificate=true;";
+    var connBuilder = new Npgsql.NpgsqlConnectionStringBuilder
+    {
+        Host = uri.Host,
+        Database = uri.LocalPath.TrimStart('/'),
+        Username = userInfo.Length > 0 ? userInfo[0] : "",
+        Password = userInfo.Length > 1 ? userInfo[1] : "",
+        Port = uri.Port > 0 ? uri.Port : 5432,
+        SslMode = Npgsql.SslMode.Require,
+        TrustServerCertificate = true
+    };
+    connectionUrl = connBuilder.ToString();
 }
 builder.Services.AddDbContext<TallerDbContext>(options => options.UseNpgsql(connectionUrl));
 
