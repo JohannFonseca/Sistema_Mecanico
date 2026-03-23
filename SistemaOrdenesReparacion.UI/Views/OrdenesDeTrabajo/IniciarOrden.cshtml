@@ -1,0 +1,141 @@
+@model SistemaOrdenesReparacion.Model.OrdenDeTrabajo
+
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: url('/img/fondo.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        font-family: 'Segoe UI', sans-serif;
+        color: #212529;
+        overflow: hidden;
+        padding: 2rem 0;
+    }
+
+    .form-container {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.3);
+        padding: 2rem 3rem;
+        width: 100%;
+        max-width: 700px;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    h1 {
+        color: #ffc107;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    dl.row {
+        margin-bottom: 2rem;
+    }
+
+    dt.col-sm-4 {
+        font-weight: 600;
+    }
+
+    dd.col-sm-8 {
+        margin-left: 0;
+    }
+
+    .form-label {
+        font-weight: 600;
+    }
+
+    .btn-warning {
+        font-weight: 600;
+    }
+
+    .invalid-feedback {
+        display: block;
+    }
+
+    .text-danger {
+        font-size: 0.875rem;
+    }
+</style>
+
+<div class="form-container">
+    <h1>Iniciar Orden de Trabajo</h1>
+
+    <dl class="row">
+        <dt class="col-sm-4">Tipo De Vehículo:</dt>
+        <dd class="col-sm-8">@Model.TipoDeVehiculo</dd>
+
+        <dt class="col-sm-4">Marca:</dt>
+        <dd class="col-sm-8">@Model.Marca</dd>
+
+        <dt class="col-sm-4">Modelo:</dt>
+        <dd class="col-sm-8">@Model.Modelo</dd>
+
+        <dt class="col-sm-4">Tipo De Combustión:</dt>
+        <dd class="col-sm-8">@Model.TipoDeCombustionInterna</dd>
+
+        <dt class="col-sm-4">Año de fabricación:</dt>
+        <dd class="col-sm-8">@Model.AñoDeFabricacion</dd>
+
+        <dt class="col-sm-4">Descripción del problema:</dt>
+        <dd class="col-sm-8">@Model.DescripcionDelProblema</dd>
+    </dl>
+
+    <form asp-action="IniciarOrden" asp-route-id="@Model.Id" method="post" class="needs-validation" novalidate>
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-4">
+            <label for="mecanicoId" class="form-label">Seleccione un mecánico <span class="text-danger">*</span></label>
+            <select name="mecanicoId" id="mecanicoId" class="form-select" required>
+                <option value="">-- Seleccione un mecánico --</option>
+                @foreach (var mecanico in ViewBag.Mecanicos)
+                {
+                    <option value="@mecanico.Id">@mecanico.NombreCompleto</option>
+                }
+            </select>
+
+            <div class="invalid-feedback">
+                Debe seleccionar un mecánico.
+            </div>
+
+            
+            <span class="text-danger">@Html.ValidationMessage("mecanicoId")</span>
+        </div>
+
+        <div class="d-flex gap-3">
+            <button type="submit" class="btn btn-warning flex-grow-1">Iniciar Orden</button>
+            <a asp-action="Index" class="btn btn-secondary flex-grow-1 text-center">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        (() => {
+          'use strict';
+          const forms = document.querySelectorAll('.needs-validation');
+          Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+              if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        })();
+    </script>
+}

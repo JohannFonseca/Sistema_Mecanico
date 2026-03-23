@@ -1,0 +1,6 @@
+@SistemaOrdenesReparacion.SI_HostAddress = http://localhost:5079
+
+GET {{SistemaOrdenesReparacion.SI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

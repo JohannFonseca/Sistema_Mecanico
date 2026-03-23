@@ -1,0 +1,59 @@
+﻿@model dynamic
+
+@{
+    ViewData["Title"] = "Resumen Total de la Orden";
+}
+
+<style>
+    body {
+        background-image: url('/img/fondo.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        padding: 2rem;
+        color: #212529;
+        min-height: 100vh;
+    }
+
+    .panel-scroll {
+        max-height: calc(100vh - 4rem);
+        overflow-y: auto;
+        background: rgba(255,255,255,0.88);
+        padding: 2rem;
+        box-shadow: 0 0 10px rgba(0,0,0,0.15);
+        margin-left: calc(-50vw + 50%);
+        width: 100vw;
+        border-radius: 0.5rem;
+    }
+
+    .resumen-table {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+</style>
+
+<div class="panel-scroll">
+    <h2 class="text-center text-success fw-bold mb-4">Resumen Total de la Orden</h2>
+
+    <table class="table table-bordered table-striped resumen-table bg-white text-center">
+        <tr>
+            <th class="table-success text-uppercase">Total De Repuestos</th>
+            <td>₡@Model.TotalRepuestos.ToString("N2")</td>
+        </tr>
+        <tr>
+            <th class="table-success text-uppercase">Total De Servicios</th>
+            <td>₡@Model.TotalServicios.ToString("N2")</td>
+        </tr>
+        <tr>
+            <th class="table-success text-uppercase">Total</th>
+            <td class="fw-bold text-danger">₡@Model.TotalGeneral.ToString("N2")</td>
+        </tr>
+    </table>
+
+    <div class="text-center mt-4">
+        <a asp-action="Index" asp-controller="OrdenesEnProceso" class="btn btn-secondary">← Volver a la orden</a>
+    </div>
+</div>

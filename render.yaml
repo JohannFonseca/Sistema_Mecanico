@@ -1,0 +1,29 @@
+databases:
+  - name: taller-db
+    databaseName: taller
+    user: taller_user
+    plan: free
+
+services:
+  - type: web
+    name: taller-api
+    env: docker
+    dockerfilePath: ./Dockerfile.API
+    plan: free
+    envVars:
+      - key: ConnectionStrings__DefaultConnection
+        fromDatabase:
+          name: taller-db
+          property: connectionString
+
+  - type: web
+    name: taller-ui
+    env: docker
+    dockerfilePath: ./Dockerfile.UI
+    plan: free
+    envVars:
+      - key: URLAPI
+        fromService:
+          type: web
+          name: taller-api
+          envVarKey: RENDER_EXTERNAL_URL

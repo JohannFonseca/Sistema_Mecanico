@@ -1,0 +1,87 @@
+﻿@model List<SistemaOrdenesReparacion.Model.Mecanico>
+
+@{
+    ViewData["Title"] = "Lista de Mecánicos";
+}
+
+<style>
+    body {
+        background-image: url('/img/fondo.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        min-height: 100vh;
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        padding: 2rem;
+        color: #212529;
+    }
+
+    .panel-scroll {
+        max-height: calc(100vh - 4rem);
+        overflow-y: auto;
+        background: rgba(255,255,255,0.85);
+        padding: 2rem;
+        box-shadow: 0 0 10px rgba(0,0,0,0.15);
+        margin-left: calc(-50vw + 50%);
+        width: 100vw;
+        border-radius: 0.5rem;
+    }
+</style>
+
+<div class="panel-scroll">
+
+    <h1 class="text-center text-warning fw-bold mb-4">Mecánicos Registrados</h1>
+
+    <form asp-action="Index" method="get" class="row g-3 align-items-center mb-4">
+        <div class="col-12 col-md-auto">
+            <label for="filtroNombre" class="col-form-label fw-semibold">Buscar por nombre:</label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-5">
+            <input type="text" name="filtroNombre" id="filtroNombre" class="form-control"
+                   value="@ViewData["FiltroNombre"]" placeholder="Ingrese nombre..." />
+        </div>
+        <div class="col-12 col-md-auto">
+            <button type="submit" class="btn btn-warning w-100 px-4">Buscar</button>
+        </div>
+        <div class="col-12 col-md-auto ms-md-auto">
+            <a asp-action="Crear" class="btn btn-success w-100 px-4">Agregar Nuevo Mecánico</a>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered align-middle text-center mb-0 bg-white">
+            <thead class="table-warning text-secondary text-uppercase">
+                <tr>
+                    <th>Identificación</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th style="min-width: 150px;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var mecanico in Model)
+                {
+                    <tr>
+                        <td>@mecanico.Identificacion</td>
+                        <td>@mecanico.Nombre</td>
+                        <td>@mecanico.Apellidos</td>
+                        <td>
+                            <div class="d-flex justify-content-center gap-2 flex-wrap">
+                                <a asp-action="Editar" asp-route-id="@mecanico.Id" class="btn btn-outline-warning btn-sm">Editar</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-4 text-center">
+        <a asp-action="Index" asp-controller="Home" class="btn btn-secondary">
+            ← Regresar al Menú del Mecánico
+        </a>
+    </div>
+
+</div>

@@ -1,0 +1,98 @@
+<style>
+    body {
+        background-image: url('/img/fondo.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        min-height: 100vh;
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        padding: 2rem;
+        color: #212529;
+    }
+
+    .panel-scroll {
+        max-height: calc(100vh - 4rem); /* Altura pantalla menos padding */
+        overflow-y: auto;
+        background: rgba(255,255,255,0.85);
+        padding: 2rem;
+        box-shadow: 0 0 10px rgba(0,0,0,0.15);
+        margin-left: calc(-50vw + 50%);
+        width: 100vw;
+        border-radius: 0.5rem;
+    }
+</style>
+
+<!-- Contenedor con scroll vertical -->
+<div class="panel-scroll">
+
+    <!-- Título -->
+    <h1 class="text-center text-warning fw-bold mb-4">Órdenes de Trabajo</h1>
+
+    <!-- Filtros y botón de crear -->
+    <form asp-action="Index" method="get" class="row g-3 align-items-center mb-4">
+        <div class="col-12 col-md-auto">
+            <label for="filtroCliente" class="col-form-label fw-semibold">Buscar por nombre:</label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-5">
+            <input type="text" name="filtroCliente" id="filtroCliente" class="form-control"
+                   value="@ViewData["FiltroCliente"]" placeholder="Ingrese nombre..." />
+        </div>
+        <div class="col-12 col-md-auto">
+            <button type="submit" class="btn btn-warning w-100 px-4">Buscar</button>
+        </div>
+        <div class="col-12 col-md-auto ms-md-auto">
+            <a asp-action="Create" class="btn btn-success w-100 px-4">Crear Nueva Orden</a>
+        </div>
+    </form>
+
+    <!-- Tabla con scroll horizontal -->
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered align-middle text-center mb-0 bg-white">
+            <thead class="table-warning text-secondary text-uppercase">
+                <tr>
+                    <th>Identificación Cliente</th>
+                    <th>Nombre del Cliente</th>
+                    <th>Apellidos del Cliente</th>
+                    <th>Tipo de Vehículo</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Tipo de Combustión</th>
+                    <th>Año de Fabricación</th>
+                    <th style="min-width: 150px;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var orden in Model)
+                {
+                    <tr>
+                        <td>@orden.Cliente?.Identificacion</td>
+                        <td>@orden.Cliente?.Nombre</td>
+                        <td>@orden.Cliente?.Apellidos</td>
+                        <td>@orden.TipoDeVehiculoTexto</td>
+                        <td>@orden.Marca</td>
+                        <td>@orden.Modelo</td>
+                        <td>@orden.TipoDeCombustionInterna</td>
+                        <td>@orden.AñoDeFabricacion</td>
+                        <td>
+                            <div class="d-flex justify-content-center gap-2 flex-wrap">
+                                <a asp-action="Edit" asp-route-id="@orden.Id" class="btn btn-outline-warning btn-sm">Editar</a>
+                                <a asp-action="Cancel" asp-route-id="@orden.Id" class="btn btn-outline-danger btn-sm">Cancelar</a>
+                                <a asp-action="IniciarOrden" asp-route-id="@orden.Id" class="btn btn-outline-success btn-sm">Iniciar</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Botón de regreso -->
+    <div class="mt-4 text-center">
+        <a asp-action="Index" asp-controller="Home" class="btn btn-secondary">
+            ← Regresar al Menú del Mecánico
+        </a>
+    </div>
+
+</div>
