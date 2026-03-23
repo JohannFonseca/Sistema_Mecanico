@@ -27,7 +27,4 @@ services:
       - key: ASPNETCORE_ENVIRONMENT
         value: Development
       - key: URLAPI
-        fromService:
-          type: web
-          name: taller-api
-          property: host
+        value: https://taller-api.onrender.com
