@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using SistemaOrdenesReparacion.Model;
@@ -95,7 +95,11 @@ namespace SistemaOrdenesReparacion.UI.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            // Aquí opcionalmente puedes validar campos vacíos para mejor UX
+            if (model.NombreUsuario?.ToLower() == "admin")
+            {
+                ModelState.AddModelError("", "No está permitido cambiar la contraseña del administrador por este medio.");
+                return View(model);
+            }
 
             var response = await _client.PostAsJsonAsync("api/login/cambiar-clave", model);
 

@@ -1,4 +1,4 @@
-﻿@model SistemaOrdenesReparacion.Model.Login
+@model SistemaOrdenesReparacion.Model.Login
 
 @{
     ViewData["Title"] = "Iniciar sesión";
@@ -151,9 +151,9 @@
     <h3>Login @tipoNombre</h3>
 
     <nav class="nav nav-pills mb-3">
-        <a class="nav-link @(rol == 2 ? "active" : "")" href="?rol=2">Cliente</a>
-        <a class="nav-link @(rol == 3 ? "active" : "")" href="?rol=3">Mecánico</a>
-        <a class="nav-link @(rol == 1 ? "active" : "")" href="?rol=1">Administrador</a>
+        <a class="nav-link @(rol == 2 ? "active" : "")" href="@Url.Action("Index", "Login", new { rol = 2 })">Cliente</a>
+        <a class="nav-link @(rol == 3 ? "active" : "")" href="@Url.Action("Index", "Login", new { rol = 3 })">Mecánico</a>
+        <a class="nav-link @(rol == 1 ? "active" : "")" href="@Url.Action("Index", "Login", new { rol = 1 })">Administrador</a>
     </nav>
 
     @if (TempData["ErrorLogin"] != null)

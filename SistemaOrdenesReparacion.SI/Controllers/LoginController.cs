@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using SistemaOrdenesReparacion.Model;
 using SistemaOrdenesReparacion.DA;
 using Microsoft.EntityFrameworkCore;
@@ -114,6 +114,9 @@ namespace SistemaOrdenesReparacion.SI.Controllers
 
             if (cuenta == null)
                 return Unauthorized("Nombre de usuario o clave actual incorrectos.");
+
+            if (cuenta.Rol == 1)
+                return BadRequest("No está permitido cambiar la contraseña del administrador por este medio.");
 
             cuenta.Clave = model.NuevaClave;
             cuenta.FechaUltimoCambioClave = DateTime.Now;
