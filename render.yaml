@@ -11,6 +11,8 @@ services:
     dockerfilePath: ./Dockerfile.API
     plan: free
     envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Development
       - key: ConnectionStrings__DefaultConnection
         fromDatabase:
           name: taller-db
@@ -22,6 +24,8 @@ services:
     dockerfilePath: ./Dockerfile.UI
     plan: free
     envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Development
       - key: URLAPI
         fromService:
           type: web
