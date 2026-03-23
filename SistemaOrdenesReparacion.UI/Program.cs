@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 var apiBaseUrl = builder.Configuration["URLAPI"];
 if (!string.IsNullOrEmpty(apiBaseUrl) && !apiBaseUrl.StartsWith("http"))
 {
-    apiBaseUrl = "http://" + apiBaseUrl;
+    apiBaseUrl = "https://" + apiBaseUrl;
 }
 
 builder.Services.AddHttpClient("API", client =>
