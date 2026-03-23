@@ -14,6 +14,7 @@ if (!string.IsNullOrEmpty(apiBaseUrl) && !apiBaseUrl.StartsWith("http"))
 builder.Services.AddHttpClient("API", client =>
 {
     client.BaseAddress = new Uri(apiBaseUrl);
+    client.Timeout = TimeSpan.FromMinutes(5);
 });
 
 builder.Services.AddControllersWithViews();
