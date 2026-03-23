@@ -4,8 +4,12 @@ using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Lee URL desde configuración
+// Lee URL desde configuracin
 var apiBaseUrl = builder.Configuration["URLAPI"];
+if (!string.IsNullOrEmpty(apiBaseUrl) && !apiBaseUrl.StartsWith("http"))
+{
+    apiBaseUrl = "https://" + apiBaseUrl;
+}
 
 builder.Services.AddHttpClient("API", client =>
 {
