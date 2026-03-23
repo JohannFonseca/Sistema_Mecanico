@@ -30,4 +30,4 @@ services:
         fromService:
           type: web
           name: taller-api
-          property: hostport
+          property: url
