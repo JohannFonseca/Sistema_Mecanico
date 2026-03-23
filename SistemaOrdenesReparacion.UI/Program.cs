@@ -8,13 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 var apiBaseUrl = builder.Configuration["URLAPI"];
 if (!string.IsNullOrEmpty(apiBaseUrl) && !apiBaseUrl.StartsWith("http"))
 {
-    apiBaseUrl = "https://" + apiBaseUrl;
+    apiBaseUrl = "http://" + apiBaseUrl;
 }
 
 builder.Services.AddHttpClient("API", client =>
 {
     client.BaseAddress = new Uri(apiBaseUrl);
-    client.Timeout = TimeSpan.FromMinutes(5);
 });
 
 builder.Services.AddControllersWithViews();

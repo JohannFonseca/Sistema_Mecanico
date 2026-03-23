@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -16,12 +15,12 @@ namespace SistemaOrdenesReparacion.DA.Migrations
                 name: "Clientes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Identificacion = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    Nombre = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Apellidos = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    CorreoElectronico = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Identificacion = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Apellidos = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CorreoElectronico = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,10 +31,10 @@ namespace SistemaOrdenesReparacion.DA.Migrations
                 name: "InventarioDeRepuestos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Nombre = table.Column<string>(type: "text", nullable: false),
-                    Descripcion = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PrecioUnitario = table.Column<decimal>(type: "money", nullable: false)
                 },
                 constraints: table =>
@@ -47,10 +46,10 @@ namespace SistemaOrdenesReparacion.DA.Migrations
                 name: "InventarioDeServicios",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Nombre = table.Column<string>(type: "text", nullable: false),
-                    Descripcion = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Precio = table.Column<decimal>(type: "money", nullable: false)
                 },
                 constraints: table =>
@@ -62,12 +61,12 @@ namespace SistemaOrdenesReparacion.DA.Migrations
                 name: "Mecanicos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Nombre = table.Column<string>(type: "text", nullable: false),
-                    Apellidos = table.Column<string>(type: "text", nullable: false),
-                    Identificacion = table.Column<int>(type: "integer", nullable: false),
-                    CorreoElectronico = table.Column<string>(type: "text", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Apellidos = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Identificacion = table.Column<int>(type: "int", nullable: false),
+                    CorreoElectronico = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -78,20 +77,20 @@ namespace SistemaOrdenesReparacion.DA.Migrations
                 name: "OrdenesDeTrabajos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Id_Cliente = table.Column<int>(type: "integer", nullable: false),
-                    FechaDeRegistro = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    FechaAproximadaDeFinalizacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Estado = table.Column<int>(type: "integer", nullable: false),
-                    Id_Mecanico = table.Column<int>(type: "integer", nullable: true),
-                    TipoDeVehiculo = table.Column<int>(type: "integer", nullable: false),
-                    TipoDeCombustionInterna = table.Column<int>(type: "integer", nullable: false),
-                    Marca = table.Column<string>(type: "text", nullable: false),
-                    Modelo = table.Column<string>(type: "text", nullable: false),
-                    AñoDeFabricacion = table.Column<int>(type: "integer", nullable: false),
-                    DescripcionDelProblema = table.Column<string>(type: "text", nullable: false),
-                    MotivoDeCancelacion = table.Column<string>(type: "text", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id_Cliente = table.Column<int>(type: "int", nullable: false),
+                    FechaDeRegistro = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FechaAproximadaDeFinalizacion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Estado = table.Column<int>(type: "int", nullable: false),
+                    Id_Mecanico = table.Column<int>(type: "int", nullable: true),
+                    TipoDeVehiculo = table.Column<int>(type: "int", nullable: false),
+                    TipoDeCombustionInterna = table.Column<int>(type: "int", nullable: false),
+                    Marca = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Modelo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AñoDeFabricacion = table.Column<int>(type: "int", nullable: false),
+                    DescripcionDelProblema = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MotivoDeCancelacion = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -113,18 +112,18 @@ namespace SistemaOrdenesReparacion.DA.Migrations
                 name: "Usuarios",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    NombreUsuario = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Clave = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    CorreoElectronico = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Rol = table.Column<int>(type: "integer", nullable: false),
-                    Activo = table.Column<bool>(type: "boolean", nullable: false),
-                    BloqueadoHasta = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    FechaUltimoCambioClave = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    IntentosFallidos = table.Column<int>(type: "integer", nullable: false),
-                    Id_Cliente = table.Column<int>(type: "integer", nullable: true),
-                    Id_Mecanico = table.Column<int>(type: "integer", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NombreUsuario = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Clave = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    CorreoElectronico = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Rol = table.Column<int>(type: "int", nullable: false),
+                    Activo = table.Column<bool>(type: "bit", nullable: false),
+                    BloqueadoHasta = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    FechaUltimoCambioClave = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IntentosFallidos = table.Column<int>(type: "int", nullable: false),
+                    Id_Cliente = table.Column<int>(type: "int", nullable: true),
+                    Id_Mecanico = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -147,24 +146,24 @@ namespace SistemaOrdenesReparacion.DA.Migrations
                 name: "OrdenesDeTrabajoInventarioDeRepuestos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Id_OrdenesDeTrabajos = table.Column<int>(type: "integer", nullable: false),
-                    Id_InventarioDeRepuestos = table.Column<int>(type: "integer", nullable: false),
-                    Cantidad = table.Column<int>(type: "integer", nullable: false),
-                    Total = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id_OrdenesDeTrabajos = table.Column<int>(type: "int", nullable: false),
+                    Id_InventarioDeRepuestos = table.Column<int>(type: "int", nullable: false),
+                    Cantidad = table.Column<int>(type: "int", nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrdenesDeTrabajoInventarioDeRepuestos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrdenesDeTrabajoInventarioDeRepuestos_InventarioDeRepuestos~",
+                        name: "FK_OrdenesDeTrabajoInventarioDeRepuestos_InventarioDeRepuestos_Id_InventarioDeRepuestos",
                         column: x => x.Id_InventarioDeRepuestos,
                         principalTable: "InventarioDeRepuestos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrdenesDeTrabajoInventarioDeRepuestos_OrdenesDeTrabajos_Id_~",
+                        name: "FK_OrdenesDeTrabajoInventarioDeRepuestos_OrdenesDeTrabajos_Id_OrdenesDeTrabajos",
                         column: x => x.Id_OrdenesDeTrabajos,
                         principalTable: "OrdenesDeTrabajos",
                         principalColumn: "Id",
@@ -175,24 +174,24 @@ namespace SistemaOrdenesReparacion.DA.Migrations
                 name: "OrdenesDeTrabajoInventarioDeServicios",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Id_OrdenesDeTrabajo = table.Column<int>(type: "integer", nullable: false),
-                    Id_InventarioDeServicios = table.Column<int>(type: "integer", nullable: false),
-                    Cantidad = table.Column<int>(type: "integer", nullable: false),
-                    Total = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id_OrdenesDeTrabajo = table.Column<int>(type: "int", nullable: false),
+                    Id_InventarioDeServicios = table.Column<int>(type: "int", nullable: false),
+                    Cantidad = table.Column<int>(type: "int", nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrdenesDeTrabajoInventarioDeServicios", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrdenesDeTrabajoInventarioDeServicios_InventarioDeServicios~",
+                        name: "FK_OrdenesDeTrabajoInventarioDeServicios_InventarioDeServicios_Id_InventarioDeServicios",
                         column: x => x.Id_InventarioDeServicios,
                         principalTable: "InventarioDeServicios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrdenesDeTrabajoInventarioDeServicios_OrdenesDeTrabajos_Id_~",
+                        name: "FK_OrdenesDeTrabajoInventarioDeServicios_OrdenesDeTrabajos_Id_OrdenesDeTrabajo",
                         column: x => x.Id_OrdenesDeTrabajo,
                         principalTable: "OrdenesDeTrabajos",
                         principalColumn: "Id",
@@ -200,7 +199,7 @@ namespace SistemaOrdenesReparacion.DA.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrdenesDeTrabajoInventarioDeRepuestos_Id_InventarioDeRepues~",
+                name: "IX_OrdenesDeTrabajoInventarioDeRepuestos_Id_InventarioDeRepuestos",
                 table: "OrdenesDeTrabajoInventarioDeRepuestos",
                 column: "Id_InventarioDeRepuestos");
 
@@ -210,7 +209,7 @@ namespace SistemaOrdenesReparacion.DA.Migrations
                 column: "Id_OrdenesDeTrabajos");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrdenesDeTrabajoInventarioDeServicios_Id_InventarioDeServic~",
+                name: "IX_OrdenesDeTrabajoInventarioDeServicios_Id_InventarioDeServicios",
                 table: "OrdenesDeTrabajoInventarioDeServicios",
                 column: "Id_InventarioDeServicios");
 
@@ -233,13 +232,15 @@ namespace SistemaOrdenesReparacion.DA.Migrations
                 name: "IX_Usuarios_Id_Cliente",
                 table: "Usuarios",
                 column: "Id_Cliente",
-                unique: true);
+                unique: true,
+                filter: "[Id_Cliente] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Usuarios_Id_Mecanico",
                 table: "Usuarios",
                 column: "Id_Mecanico",
-                unique: true);
+                unique: true,
+                filter: "[Id_Mecanico] IS NOT NULL");
         }
 
         /// <inheritdoc />
