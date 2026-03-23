@@ -7,8 +7,14 @@ using SistemaOrdenesReparacion.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<TallerDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+var connectionUrl = builder.Configuration.GetConnectionString("DefaultConnection");
+if (!string.IsNullOrEmpty(connectionUrl) && connectionUrl.StartsWith("postgres://"))
+{
+    var uri = new Uri(connectionUrl);
+    var userInfo = uri.UserInfo.Split(':');
+    connectionUrl = $"Host={uri.Host};Database={uri.LocalPath.Substring(1)};Username={userInfo[0]};Password={userInfo[1]};Port={(uri.Port > 0 ? uri.Port : 5432)};SSL Mode=Require;Trust Server Certificate=true;";
+}
+builder.Services.AddDbContext<TallerDbContext>(options => options.UseNpgsql(connectionUrl));
 
 
 builder.Services.AddScoped<IGestorClientes, GestorClientes>();
