@@ -1,0 +1,72 @@
+@model IEnumerable<Sistema_de_Taller_Mecanico_de_Citas.Model.OrdenDeTrabajo>
+
+@{
+    ViewData["Title"] = "Gestión de Órdenes";
+}
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h2 fw-bold text-dark"><i class="fas fa-clipboard-list me-2 text-primary"></i> Panel de Órdenes</h1>
+        <a asp-action="Create" class="btn btn-primary px-4 py-2 fw-bold shadow-sm">
+            <i class="fas fa-plus me-2"></i> Nueva Orden
+        </a>
+    </div>
+
+    <!-- Pestañas de Estados -->
+    <ul class="nav nav-tabs mb-4 border-0" id="orderTabs" role="tablist">
+        <li class="nav-item shadow-sm me-2" role="presentation">
+            <button class="nav-link active rounded-top px-4" id="nuevas-tab" data-bs-toggle="tab" data-bs-target="#nuevas" type="button">
+                Nuevas <span class="badge bg-warning text-dark ms-2">@Model.Count(o => o.Estado == Sistema_de_Taller_Mecanico_de_Citas.Model.EstadoOrden.Registrado)</span>
+            </button>
+        </li>
+        <li class="nav-item shadow-sm me-2" role="presentation">
+            <button class="nav-link rounded-top px-4" id="proceso-tab" data-bs-toggle="tab" data-bs-target="#proceso" type="button">
+                En Taller <span class="badge bg-primary ms-2">@Model.Count(o => o.Estado == Sistema_de_Taller_Mecanico_de_Citas.Model.EstadoOrden.EnProceso)</span>
+            </button>
+        </li>
+        <li class="nav-item shadow-sm" role="presentation">
+            <button class="nav-link rounded-top px-4" id="listas-tab" data-bs-toggle="tab" data-bs-target="#listas" type="button">
+                Entregadas <span class="badge bg-success ms-2">@Model.Count(o => o.Estado == Sistema_de_Taller_Mecanico_de_Citas.Model.EstadoOrden.Facturado)</span>
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content bg-white p-4 rounded-bottom shadow-sm" id="orderTabsContent">
+        <!-- Pestaña: NUEVAS -->
+        <div class="tab-pane fade show active" id="nuevas" role="tabpanel">
+            @await Html.PartialAsync("_ListaOrdenes", Model.Where(o => o.Estado == Sistema_de_Taller_Mecanico_de_Citas.Model.EstadoOrden.Registrado))
+        </div>
+        
+        <!-- Pestaña: EN PROCESO -->
+        <div class="tab-pane fade" id="proceso" role="tabpanel">
+            @await Html.PartialAsync("_ListaOrdenes", Model.Where(o => o.Estado == Sistema_de_Taller_Mecanico_de_Citas.Model.EstadoOrden.EnProceso))
+        </div>
+
+        <!-- Pestaña: ENTREGADAS -->
+        <div class="tab-pane fade" id="listas" role="tabpanel">
+            @await Html.PartialAsync("_ListaOrdenes", Model.Where(o => o.Estado == Sistema_de_Taller_Mecanico_de_Citas.Model.EstadoOrden.Facturado))
+        </div>
+    </div>
+</div>
+
+<style>
+    .nav-tabs .nav-link { 
+        background-color: #e9ecef;
+        color: #495057;
+        font-weight: 600;
+        border: none;
+        transition: all 0.2s;
+    }
+    .nav-tabs .nav-link.active {
+        background-color: white !important;
+        color: var(--primary) !important;
+        border-bottom: 3px solid var(--primary) !important;
+    }
+    .table thead th {
+        background-color: #f8f9fa;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+        color: #6c757d;
+    }
+</style>

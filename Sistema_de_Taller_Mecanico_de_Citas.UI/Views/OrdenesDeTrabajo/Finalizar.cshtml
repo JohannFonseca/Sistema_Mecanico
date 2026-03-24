@@ -1,0 +1,98 @@
+@model Sistema_de_Taller_Mecanico_de_Citas.Model.OrdenDeTrabajo
+
+@{
+    ViewData["Title"] = "Finalizar y Cobrar";
+    decimal total = 0;
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-dark text-white p-4">
+            <h2 class="mb-0"><i class="fas fa-file-invoice-dollar me-2 text-warning"></i> Finalizar y Facturar Orden #@Model.Id</h2>
+        </div>
+        <div class="card-body p-5">
+            <div class="row">
+                <div class="col-md-7">
+                    <h4 class="text-primary border-bottom pb-2 mb-3">Resumen de Servicios y Repuestos</h4>
+                    <div class="table-responsive">
+                        <table class="table table-striped align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Descripción</th>
+                                    <th class="text-end">Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var s in Model.Servicios)
+                                {
+                                    <tr>
+                                        <td>@s.Servicio.Nombre</td>
+                                        <td class="text-end">₡@s.Total.ToString("N0")</td>
+                                    </tr>
+                                    total += (decimal)s.Total;
+                                }
+                                @foreach (var r in Model.Repuestos)
+                                {
+                                    <tr>
+                                        <td>@r.Repuesto.Nombre (x @r.Cantidad)</td>
+                                        <td class="text-end">₡@r.Total.ToString("N0")</td>
+                                    </tr>
+                                    total += (decimal)r.Total;
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr class="table-dark">
+                                    <th class="ps-3">TOTAL A COBRAR</th>
+                                    <th class="text-end pe-3">₡@total.ToString("N0")</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    
+                    <div class="alert alert-info mt-4">
+                        <i class="fas fa-info-circle me-2"></i> Al finalizar, se enviará una factura detallada al correo: <strong>@Model.Cliente?.CorreoElectronico</strong>
+                    </div>
+                </div>
+
+                <div class="col-md-5 border-start ps-md-5">
+                    <h4 class="text-primary border-bottom pb-2 mb-4">Información de Pago</h4>
+                    <form asp-action="Finalizar" method="post">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Seleccione Método de Pago:</label>
+                            <div class="d-grid gap-2">
+                                <input type="radio" class="btn-check" name="metodoPago" id="pago1" value="Efectivo" checked>
+                                <label class="btn btn-outline-secondary text-start p-3" for="pago1">
+                                    <i class="fas fa-money-bill-wave me-2"></i> Efectivo
+                                </label>
+
+                                <input type="radio" class="btn-check" name="metodoPago" id="pago2" value="Tarjeta">
+                                <label class="btn btn-outline-secondary text-start p-3" for="pago2">
+                                    <i class="fas fa-credit-card me-2"></i> Tarjeta de Débito/Crédito
+                                </label>
+
+                                <input type="radio" class="btn-check" name="metodoPago" id="pago3" value="Transferencia">
+                                <label class="btn btn-outline-secondary text-start p-3" for="pago3">
+                                    <i class="fas fa-university me-2"></i> Transferencia Bancaria
+                                </label>
+
+                                <input type="radio" class="btn-check" name="metodoPago" id="pago4" value="Sinpe Móvil">
+                                <label class="btn btn-outline-secondary text-start p-3" for="pago4">
+                                    <i class="fas fa-mobile-alt me-2"></i> Sinpe Móvil
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-5">
+                            <button type="submit" class="btn btn-primary btn-lg py-3 fw-bold">
+                                <i class="fas fa-check-circle me-2"></i> PROCESAR PAGO Y FINALIZAR
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

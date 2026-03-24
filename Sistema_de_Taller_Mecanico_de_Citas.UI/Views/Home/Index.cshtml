@@ -1,0 +1,140 @@
+@{
+    ViewData["Title"] = "Menú Principal";
+    var nombreUsuario = User.Identity.Name;
+    var rol = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+    body {
+        background-image: url('/img/fondo.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        color: #333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .menu-container {
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(6px);
+        padding: 3rem 2rem;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        width: 90%;
+        max-width: 480px;
+        text-align: center;
+    }
+
+        .menu-container h2 {
+            color: #e65100;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+    .nombre-usuario {
+        font-size: clamp(1rem, 2.5vw, 1.4rem);
+        color: #444;
+        max-width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+    }
+
+    .menu-opcion {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin: 12px auto;
+        padding: 14px 18px;
+        width: 100%;
+        max-width: 100%;
+        background: linear-gradient(135deg, #ff9800, #ff5722);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
+    }
+
+        .menu-opcion i {
+            font-size: 18px;
+        }
+
+        .menu-opcion:hover {
+            background: linear-gradient(135deg, #f57c00, #e64a19);
+            transform: scale(1.03);
+            box-shadow: 0 6px 15px rgba(255, 152, 0, 0.6);
+        }
+
+    .cerrar-sesion {
+        background: linear-gradient(135deg, #d32f2f, #b71c1c);
+        box-shadow: 0 4px 12px rgba(244, 67, 54, 0.5);
+    }
+
+        .cerrar-sesion:hover {
+            background: linear-gradient(135deg, #c62828, #a30000);
+        }
+</style>
+
+<div class="menu-container">
+    <h2>¡Bienvenido!</h2>
+    <div class="nombre-usuario">@nombreUsuario</div>
+
+    @if (rol == "Cliente")
+    {
+        <a href="@Url.Action("Index", "OrdenesCliente")" class="menu-opcion">
+            <i class="fas fa-tools"></i> Ver mis órdenes de trabajo
+        </a>
+    }
+    else if (rol == "Administrador")
+    {
+        <a href="@Url.Action("Index", "Clientes")" class="menu-opcion">
+            <i class="fas fa-users"></i> Gestionar Clientes
+        </a>
+        <a href="@Url.Action("Index", "OrdenesDeTrabajo")" class="menu-opcion">
+            <i class="fas fa-clipboard-list"></i> Gestión de Órdenes
+        </a>
+        <a href="@Url.Action("Index", "Mecanicos")" class="menu-opcion">
+            <i class="fas fa-user-cog"></i> Gestionar Mecánicos
+        </a>
+        <a href="@Url.Action("Index", "InventarioDeServicios")" class="menu-opcion">
+            <i class="fas fa-toolbox"></i> Inventario de Servicios
+        </a>
+        <a href="@Url.Action("Index", "Repuestos")" class="menu-opcion">
+            <i class="fas fa-cogs"></i> Inventario de Repuestos
+        </a>
+    }
+    else if (rol == "Mecanico")
+    {
+        <a href="@Url.Action("Index", "Clientes")" class="menu-opcion">
+            <i class="fas fa-users"></i> Gestionar Clientes
+        </a>
+        <a href="@Url.Action("Index", "OrdenesDeTrabajo")" class="menu-opcion">
+            <i class="fas fa-tasks"></i> Órdenes de Trabajo
+        </a>
+        <a href="@Url.Action("Index", "OrdenesEnproceso")" class="menu-opcion">
+            <i class="fas fa-spinner"></i> Órdenes en Proceso
+        </a>
+        <a href="@Url.Action("Index", "OrdenesCanceladas")" class="menu-opcion">
+            <i class="fas fa-ban"></i> Órdenes Canceladas
+        </a>
+    }
+
+    <a href="@Url.Action("Salir", "Login")" class="menu-opcion cerrar-sesion">
+        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+    </a>
+</div>

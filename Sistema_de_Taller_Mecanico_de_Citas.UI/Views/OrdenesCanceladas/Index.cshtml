@@ -1,0 +1,89 @@
+﻿@model List<Sistema_de_Taller_Mecanico_de_Citas.Model.OrdenDeTrabajo>
+
+@{
+    ViewData["Title"] = "Órdenes Canceladas";
+}
+
+<style>
+    body {
+        background-image: url('/img/fondo.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        padding: 2rem;
+        color: #212529;
+        min-height: 100vh;
+    }
+
+    .panel-scroll {
+        max-height: calc(100vh - 4rem);
+        overflow-y: auto;
+        background: rgba(255,255,255,0.88);
+        padding: 2rem;
+        box-shadow: 0 0 10px rgba(0,0,0,0.15);
+        margin-left: calc(-50vw + 50%);
+        width: 100vw;
+        border-radius: 0.5rem;
+    }
+</style>
+
+<div class="panel-scroll">
+
+    <h1 class="text-center text-danger fw-bold mb-4">Órdenes de Trabajo Canceladas</h1>
+
+    <form asp-action="Index" method="get" class="row g-3 align-items-center mb-4">
+        <div class="col-12 col-md-auto">
+            <label for="filtroCliente" class="col-form-label fw-semibold">Filtrar por nombre:</label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-5">
+            <input type="text" name="filtroCliente" id="filtroCliente" class="form-control"
+                   value="@ViewData["FiltroCliente"]" placeholder="Ingrese nombre del cliente..." />
+        </div>
+        <div class="col-12 col-md-auto">
+            <button type="submit" class="btn btn-primary w-100 px-4">Buscar</button>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered align-middle text-center mb-0 bg-white">
+            <thead class="table-danger text-secondary text-uppercase">
+                <tr>
+                    <th>Identificación Cliente</th>
+                    <th>Nombre Del Cliente</th>
+                    <th>Apellidos Del Cliente</th>
+                    <th>Tipo de Vehículo</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Tipo de Combustión</th>
+                    <th>Año de fabricación </th>
+                    <th style="min-width: 130px;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var orden in Model)
+                {
+                    <tr>
+                        <td>@(orden.Cliente?.Identificacion ?? "N/A")</td>
+                        <td>@(orden.Cliente?.Nombre ?? "N/A")</td>
+                        <td>@(orden.Cliente?.Apellidos ?? "N/A")</td>
+                        <td>@orden.TipoDeVehiculoTexto</td>
+                        <td>@orden.Marca</td>
+                        <td>@orden.Modelo</td>
+                        <td>@orden.TipoDeCombustionInterna</td>
+                        <td>@orden.AñoDeFabricacion</td>
+                        <td>
+                            <a asp-action="Detalle" asp-route-id="@orden.Id" class="btn btn-outline-info btn-sm">Ver Detalle</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-4 text-center">
+        <a asp-action="Index" asp-controller="Home" class="btn btn-secondary">← Regresar al menú</a>
+    </div>
+</div>

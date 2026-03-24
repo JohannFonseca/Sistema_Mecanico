@@ -1,0 +1,63 @@
+﻿@model List<Sistema_de_Taller_Mecanico_de_Citas.Model.OrdenServicio>
+
+@{
+    ViewData["Title"] = "Servicios Asignados";
+}
+
+<style>
+    body {
+        background-image: url('/img/fondo.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        padding: 2rem;
+        color: #212529;
+        min-height: 100vh;
+    }
+
+    .panel-scroll {
+        max-height: calc(100vh - 4rem);
+        overflow-y: auto;
+        background: rgba(255,255,255,0.88);
+        padding: 2rem;
+        box-shadow: 0 0 10px rgba(0,0,0,0.15);
+        margin-left: calc(-50vw + 50%);
+        width: 100vw;
+        border-radius: 0.5rem;
+    }
+</style>
+
+<div class="panel-scroll">
+    <h2 class="text-center text-primary fw-bold mb-4">Servicios Asignados a la Orden</h2>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered align-middle text-center bg-white">
+            <thead class="table-primary text-secondary text-uppercase">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Servicio.Nombre</td>
+                        <td>₡@item.Servicio.Precio.ToString("N2")</td>
+                        <td>@item.Cantidad</td>
+                        <td>₡@item.Total.ToString("N2")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="text-center mt-4">
+        <a asp-action="Index" asp-controller="OrdenesEnProceso" class="btn btn-secondary">← Volver a la orden</a>
+    </div>
+</div>

@@ -1,0 +1,6 @@
+@Sistema_de_Taller_Mecanico_de_Citas.SI_HostAddress = http://localhost:5079
+
+GET {{Sistema_de_Taller_Mecanico_de_Citas.SI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

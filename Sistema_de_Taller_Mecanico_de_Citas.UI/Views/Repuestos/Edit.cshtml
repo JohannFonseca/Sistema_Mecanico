@@ -1,0 +1,84 @@
+﻿@model Sistema_de_Taller_Mecanico_de_Citas.Model.InventarioDeRepuesto
+
+@{
+    ViewData["Title"] = "Editar Repuesto";
+}
+
+<style>
+    body {
+        background-image: url('/img/fondo.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        min-height: 100vh;
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        padding: 2rem;
+        color: #212529;
+    }
+
+    .panel-scroll {
+        max-height: calc(100vh - 4rem);
+        overflow-y: auto;
+        background: rgba(255,255,255,0.85);
+        padding: 2rem;
+        box-shadow: 0 0 10px rgba(0,0,0,0.15);
+        margin-left: calc(-50vw + 50%);
+        width: 100vw;
+        border-radius: 0.5rem;
+    }
+
+    .btn-warning-custom {
+        background-color: #FE9900;
+        border-color: #FE9900;
+        color: white;
+    }
+
+        .btn-warning-custom:hover {
+            background-color: #e58900;
+            border-color: #e58900;
+        }
+
+    .form-control {
+        border-radius: 0.4rem;
+    }
+</style>
+
+<div class="panel-scroll">
+
+    <h1 class="text-center text-warning fw-bold mb-4">@ViewData["Title"]</h1>
+
+    <form asp-action="Edit" method="post" class="row g-3">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="col-12 col-md-6">
+            <label asp-for="Nombre" class="form-label fw-semibold"></label>
+            <input asp-for="Nombre" class="form-control" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+
+        <div class="col-12">
+            <label asp-for="Descripcion" class="form-label fw-semibold"></label>
+            <textarea asp-for="Descripcion" class="form-control"></textarea>
+            <span asp-validation-for="Descripcion" class="text-danger"></span>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <label asp-for="Precio" class="form-label fw-semibold">Precio Unitario</label>
+            <input asp-for="Precio" type="number" step="1" min="0" class="form-control" />
+            <span asp-validation-for="Precio" class="text-danger"></span>
+        </div>
+
+        <div class="col-12 d-flex justify-content-center gap-3 mt-4 flex-wrap">
+            <button type="submit" class="btn btn-success px-4">Guardar</button>
+            <a asp-action="Index" class="btn btn-secondary px-4">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

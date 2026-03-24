@@ -1,0 +1,146 @@
+@model Sistema_de_Taller_Mecanico_de_Citas.Model.OrdenDeTrabajo
+@using Sistema_de_Taller_Mecanico_de_Citas.Model
+
+<style>
+  .form-wrapper {
+    background-image: url('/img/fondo.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem;
+  }
+  .form-container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    padding: 40px;
+    width: 100%;
+    max-width: 700px;
+    margin: 2rem auto;
+  }
+  .form-label { font-weight: 600; color: #333; }
+  .form-control, .form-select { border-radius: 10px; }
+</style>
+
+<div class="form-wrapper">
+<div class="form-container">
+    <h1 class="text-center fw-bold mb-4" style="color:#b8860b;">
+        <i class="fas fa-edit me-2"></i>Editar Orden #@Model.Id
+    </h1>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger rounded-3">
+            <ul class="mb-0">
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            </ul>
+        </div>
+    }
+
+    <form asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+
+        @* ── Campos ocultos obligatorios ── *@
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="Estado" />
+        <input type="hidden" asp-for="FechaDeRegistro" />
+        <input type="hidden" asp-for="Id_Mecanico" />
+
+        @* ── Cliente ── *@
+        <div class="mb-3">
+            <label asp-for="Id_Cliente" class="form-label">Cliente</label>
+            <select asp-for="Id_Cliente" class="form-select"
+                    asp-items="@(new SelectList(ViewBag.Clientes, "Id", "NombreCompleto", Model.Id_Cliente))">
+                <option value="">-- Seleccione un cliente --</option>
+            </select>
+            <span asp-validation-for="Id_Cliente" class="text-danger small"></span>
+        </div>
+
+        @* ── Fecha aprox. de entrega ── *@
+        <div class="mb-3">
+            <label asp-for="FechaAproximadaDeFinalizacion" class="form-label">Fecha Estimada de Entrega</label>
+            <input asp-for="FechaAproximadaDeFinalizacion" type="date" class="form-control" />
+            <span asp-validation-for="FechaAproximadaDeFinalizacion" class="text-danger small"></span>
+        </div>
+
+        @* ── Tipo de vehículo ── *@
+        <div class="mb-3">
+            <label asp-for="TipoDeVehiculo" class="form-label">Tipo de Vehículo</label>
+            <select asp-for="TipoDeVehiculo" class="form-select" asp-items="ViewBag.TiposVehiculo">
+                <option value="">-- Seleccione tipo de vehículo --</option>
+            </select>
+            <span asp-validation-for="TipoDeVehiculo" class="text-danger small"></span>
+        </div>
+
+        @* ── Tipo de combustión ── *@
+        <div class="mb-3">
+            <label asp-for="TipoDeCombustionInterna" class="form-label">Tipo de Combustión</label>
+            <select asp-for="TipoDeCombustionInterna" class="form-select" asp-items="ViewBag.TiposCombustion">
+                <option value="">-- Seleccione tipo de combustión --</option>
+            </select>
+            <span asp-validation-for="TipoDeCombustionInterna" class="text-danger small"></span>
+        </div>
+
+        @* ── Marca ── *@
+        <div class="mb-3">
+            <label asp-for="Marca" class="form-label">Marca del Vehículo</label>
+            <input asp-for="Marca" class="form-control" />
+            <span asp-validation-for="Marca" class="text-danger small"></span>
+        </div>
+
+        @* ── Modelo ── *@
+        <div class="mb-3">
+            <label asp-for="Modelo" class="form-label">Modelo</label>
+            <input asp-for="Modelo" class="form-control" />
+            <span asp-validation-for="Modelo" class="text-danger small"></span>
+        </div>
+
+        @* ── Año ── *@
+        <div class="mb-3">
+            <label asp-for="AñoDeFabricacion" class="form-label">Año de Fabricación</label>
+            <select asp-for="AñoDeFabricacion" class="form-select">
+                <option value="">-- Seleccione un año --</option>
+                @for (int año = DateTime.Now.Year; año >= 1970; año--)
+                {
+                    if (Model.AñoDeFabricacion == año)
+                    {
+                        <option value="@año" selected>@año</option>
+                    }
+                    else
+                    {
+                        <option value="@año">@año</option>
+                    }
+                }
+            </select>
+            <span asp-validation-for="AñoDeFabricacion" class="text-danger small"></span>
+        </div>
+
+        @* ── Descripción del problema ── *@
+        <div class="mb-4">
+            <label asp-for="DescripcionDelProblema" class="form-label">Descripción del Problema</label>
+            <textarea asp-for="DescripcionDelProblema" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="DescripcionDelProblema" class="text-danger small"></span>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-warning fw-bold px-4">
+                <i class="fas fa-save me-1"></i> Guardar Cambios
+            </button>
+            <a asp-action="Index" class="btn btn-outline-secondary px-4">Cancelar</a>
+        </div>
+    </form>
+</div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

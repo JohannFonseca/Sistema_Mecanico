@@ -1,0 +1,88 @@
+@model IEnumerable<Sistema_de_Taller_Mecanico_de_Citas.Model.OrdenDeTrabajo>
+
+<div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Vehículo</th>
+                <th>Registro</th>
+                @if (Model.Any(o => o.Estado == Sistema_de_Taller_Mecanico_de_Citas.Model.EstadoOrden.EnProceso))
+                {
+                    <th>Mecánico</th>
+                }
+                @if (Model.Any(o => o.Estado == Sistema_de_Taller_Mecanico_de_Citas.Model.EstadoOrden.Facturado))
+                {
+                    <th>Total</th>
+                    <th>Pago</th>
+                }
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="7" class="text-center py-5 text-muted">
+                        <i class="fas fa-folder-open fa-3x mb-3 d-block"></i>
+                        No hay órdenes en este estado.
+                    </td>
+                </tr>
+            }
+            @foreach (var orden in Model)
+            {
+                <tr>
+                    <td class="fw-bold">#@orden.Id</td>
+                    <td>
+                        <div class="fw-bold">@orden.Cliente?.Nombre @orden.Cliente?.Apellidos</div>
+                        <small class="text-muted">@orden.Cliente?.Identificacion</small>
+                    </td>
+                    <td>
+                        <span class="badge bg-light text-dark border">@orden.Marca @orden.Modelo</span>
+                        <div class="small text-muted mt-1">@orden.TipoDeVehiculoTexto</div>
+                    </td>
+                    <td>
+                        <small>@orden.FechaDeRegistro.ToString("dd/MM/yyyy")</small>
+                        <div class="small text-danger">Estimado: @orden.FechaAproximadaDeFinalizacion.ToString("dd/MM/yyyy")</div>
+                    </td>
+                    
+                    @if (orden.Estado == Sistema_de_Taller_Mecanico_de_Citas.Model.EstadoOrden.EnProceso)
+                    {
+                        <td>
+                            <span class="badge bg-info text-dark"><i class="fas fa-user-cog me-1"></i> @orden.Mecanico?.Nombre</span>
+                        </td>
+                    }
+
+                    @if (orden.Estado == Sistema_de_Taller_Mecanico_de_Citas.Model.EstadoOrden.Facturado)
+                    {
+                        <td class="fw-bold text-success">₡@orden.MontoTotal.ToString("N0")</td>
+                        <td>
+                            <span class="badge bg-success">@orden.MetodoPago</span>
+                        </td>
+                    }
+
+                    <td class="text-center">
+                        <div class="btn-group shadow-sm">
+                            @if (orden.Estado == Sistema_de_Taller_Mecanico_de_Citas.Model.EstadoOrden.Registrado)
+                            {
+                                <a asp-action="Edit" asp-route-id="@orden.Id" class="btn btn-sm btn-outline-warning" title="Editar"><i class="fas fa-edit"></i></a>
+                                <a asp-action="IniciarOrden" asp-route-id="@orden.Id" class="btn btn-sm btn-outline-success" title="Iniciar"><i class="fas fa-play"></i></a>
+                                <a asp-action="Cancel" asp-route-id="@orden.Id" class="btn btn-sm btn-outline-danger" title="Cancelar"><i class="fas fa-times"></i></a>
+                            }
+                            else if (orden.Estado == Sistema_de_Taller_Mecanico_de_Citas.Model.EstadoOrden.EnProceso)
+                            {
+                                <a asp-controller="OrdenesEnProceso" asp-action="Index" class="btn btn-sm btn-primary" title="Repuestos/Servicios"><i class="fas fa-tools me-1"></i> Gestionar</a>
+                                <a asp-action="Finalizar" asp-route-id="@orden.Id" class="btn btn-sm btn-success" title="Cobrar"><i class="fas fa-cash-register me-1"></i> Cobrar</a>
+                            }
+                            else
+                            {
+                                <button class="btn btn-sm btn-outline-secondary" disabled><i class="fas fa-check-double me-1"></i> Finalizada</button>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

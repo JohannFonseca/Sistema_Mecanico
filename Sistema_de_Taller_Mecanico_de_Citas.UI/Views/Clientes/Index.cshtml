@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Sistema_de_Taller_Mecanico_de_Citas.Model.Cliente>
+
+@{
+    ViewData["Title"] = "Clientes";
+}
+
+<style>
+    body {
+        background-image: url('/img/fondo.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        padding: 2rem;
+        color: #212529;
+        min-height: 100vh;
+    }
+
+    .panel-scroll {
+        max-height: calc(100vh - 4rem);
+        overflow-y: auto;
+        background: rgba(255,255,255,0.85);
+        padding: 2rem;
+        box-shadow: 0 0 10px rgba(0,0,0,0.15);
+        margin-left: calc(-50vw + 50%);
+        width: 100vw;
+        border-radius: 0.5rem;
+    }
+</style>
+
+<div class="panel-scroll">
+
+    <h1 class="text-center text-warning fw-bold mb-4">Clientes</h1>
+
+    <form asp-action="Index" method="get" class="row g-3 align-items-center mb-4">
+        <div class="col-12 col-md-auto">
+            <label for="filtro" class="col-form-label fw-semibold">Buscar por nombre:</label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-5">
+            <input type="text" name="filtro" id="filtro" class="form-control"
+                   value="@ViewData["FiltroActual"]" placeholder="Ingrese nombre..." />
+        </div>
+        <div class="col-12 col-md-auto">
+            <button type="submit" class="btn btn-primary w-100 px-4">Buscar</button>
+        </div>
+        <div class="col-12 col-md-auto ms-md-auto">
+            <a asp-action="Create" class="btn btn-success w-100 px-4">Agregar Nuevo Cliente</a>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered align-middle text-center mb-0 bg-white">
+            <thead class="table-primary text-secondary text-uppercase">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.First().Identificacion)</th>
+                    <th>@Html.DisplayNameFor(model => model.First().Nombre)</th>
+                    <th>@Html.DisplayNameFor(model => model.First().Apellidos)</th>
+                    <th style="min-width: 120px;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Identificacion</td>
+                        <td>@item.Nombre</td>
+                        <td>@item.Apellidos</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Editar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-4 text-center">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">
+            ← Regresar al menú
+        </a>
+    </div>
+
+</div>

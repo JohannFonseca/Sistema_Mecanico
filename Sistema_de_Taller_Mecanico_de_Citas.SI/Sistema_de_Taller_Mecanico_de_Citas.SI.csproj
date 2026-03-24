@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sistema_de_Taller_Mecanico_de_Citas.BL\Sistema_de_Taller_Mecanico_de_Citas.BL.csproj" />
+    <ProjectReference Include="..\Sistema_de_Taller_Mecanico_de_Citas.DA\Sistema_de_Taller_Mecanico_de_Citas.DA.csproj" />
+    <ProjectReference Include="..\Sistema_de_Taller_Mecanico_de_Citas.Model\Sistema_de_Taller_Mecanico_de_Citas.Model.csproj" />
+  </ItemGroup>
+
+</Project>

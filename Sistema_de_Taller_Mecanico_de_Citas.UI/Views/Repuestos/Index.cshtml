@@ -1,0 +1,103 @@
+﻿@model IEnumerable<Sistema_de_Taller_Mecanico_de_Citas.Model.InventarioDeRepuesto>
+
+@{
+    ViewData["Title"] = "Inventario de Repuestos";
+}
+
+<style>
+    body {
+        background-image: url('/img/fondo.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        min-height: 100vh;
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        padding: 2rem;
+        color: #212529;
+    }
+
+    .panel-scroll {
+        max-height: calc(100vh - 4rem);
+        overflow-y: auto;
+        background: rgba(255,255,255,0.85);
+        padding: 2rem;
+        box-shadow: 0 0 10px rgba(0,0,0,0.15);
+        margin-left: calc(-50vw + 50%);
+        width: 100vw;
+        border-radius: 0.5rem;
+    }
+
+    .btn-warning-custom {
+        background-color: #FE9900;
+        border-color: #FE9900;
+        color: white;
+    }
+
+        .btn-warning-custom:hover {
+            background-color: #e58900;
+            border-color: #e58900;
+        }
+</style>
+
+<div class="panel-scroll">
+
+    <h1 class="text-center text-warning fw-bold mb-4">@ViewData["Title"]</h1>
+
+    @if (TempData["Exito"] != null)
+    {
+        <div class="alert alert-success text-center">@TempData["Exito"]</div>
+    }
+
+    <form asp-action="Index" method="get" class="row g-3 align-items-center mb-4">
+        <div class="col-12 col-md-auto">
+            <label for="nombre" class="col-form-label fw-semibold">Buscar por nombre:</label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-5">
+            <input type="text" name="nombre" id="nombre" class="form-control"
+                   value="@ViewBag.FiltroActual" placeholder="Ingrese nombre..." />
+        </div>
+        <div class="col-12 col-md-auto">
+            <button type="submit" class="btn btn-warning-custom w-100 px-4">Buscar</button>
+        </div>
+        <div class="col-12 col-md-auto ms-md-auto">
+            <a asp-action="Create" class="btn btn-success w-100 px-4">Agregar Repuesto</a>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered align-middle text-center mb-0 bg-white">
+            <thead class="table-warning text-secondary text-uppercase">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Precio Unitario</th>
+                    <th style="min-width: 150px;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var repuesto in Model)
+                {
+                    <tr>
+                        <td>@repuesto.Nombre</td>
+                        <td>@repuesto.Descripcion</td>
+                        <td>@repuesto.Precio.ToString("C")</td>
+                        <td>
+                            <div class="d-flex justify-content-center gap-2 flex-wrap">
+                                <a asp-action="Edit" asp-route-id="@repuesto.Id" class="btn btn-outline-warning btn-sm">Editar</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-4 text-center">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">
+            ← Regresar al Menú Principal
+        </a>
+    </div>
+
+</div>
