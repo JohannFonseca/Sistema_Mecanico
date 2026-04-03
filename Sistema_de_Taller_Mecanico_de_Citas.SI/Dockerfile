@@ -1,0 +1,27 @@
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
+WORKDIR /app
+EXPOSE 8080
+
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+WORKDIR /src
+
+# Copiar archivos csproj
+COPY ["Sistema_de_Taller_Mecanico_de_Citas.SI/Sistema_de_Taller_Mecanico_de_Citas.SI.csproj", "Sistema_de_Taller_Mecanico_de_Citas.SI/"]
+COPY ["Sistema_de_Taller_Mecanico_de_Citas.BL/Sistema_de_Taller_Mecanico_de_Citas.BL.csproj", "Sistema_de_Taller_Mecanico_de_Citas.BL/"]
+COPY ["Sistema_de_Taller_Mecanico_de_Citas.DA/Sistema_de_Taller_Mecanico_de_Citas.DA.csproj", "Sistema_de_Taller_Mecanico_de_Citas.DA/"]
+COPY ["Sistema_de_Taller_Mecanico_de_Citas.Model/Sistema_de_Taller_Mecanico_de_Citas.Model.csproj", "Sistema_de_Taller_Mecanico_de_Citas.Model/"]
+
+RUN dotnet restore "Sistema_de_Taller_Mecanico_de_Citas.SI/Sistema_de_Taller_Mecanico_de_Citas.SI.csproj"
+
+# Copiar todo y compilar
+COPY . .
+WORKDIR "/src/Sistema_de_Taller_Mecanico_de_Citas.SI"
+RUN dotnet build "Sistema_de_Taller_Mecanico_de_Citas.SI.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "Sistema_de_Taller_Mecanico_de_Citas.SI.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Sistema_de_Taller_Mecanico_de_Citas.SI.dll"]

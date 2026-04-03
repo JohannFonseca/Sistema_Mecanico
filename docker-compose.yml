@@ -3,7 +3,6 @@ version: '3.8'
 services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: sqlserver_db
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=YourStrong!Passw0rd
@@ -11,6 +10,32 @@ services:
       - "1433:1433"
     volumes:
       - sqlserver_data:/var/opt/mssql
+
+  api:
+    build:
+      context: .
+      dockerfile: Sistema_de_Taller_Mecanico_de_Citas.SI/Dockerfile
+    ports:
+      - "5081:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=Taller;User=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;
+    depends_on:
+      - sqlserver
+    restart: always
+
+  ui:
+    build:
+      context: .
+      dockerfile: Sistema_de_Taller_Mecanico_de_Citas.UI/Dockerfile
+    ports:
+      - "5124:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - URLAPI=http://api:8080
+    depends_on:
+      - api
+    restart: always
 
 volumes:
   sqlserver_data:
